@@ -1,0 +1,25 @@
+{
+	"manifest_version": 2,
+	"name": "Temperature Converter",
+	"description" : "Easily convert temperatures on websites right from the Firefox context menu!",
+	"version": "1.3.1",
+
+	"background": {
+		"scripts": ["background.js"]
+	},
+
+	"permissions": [
+		"contextMenus",
+		"activeTab",
+		"notifications",
+		"storage"
+	],
+
+	"icons": {
+		"16": "icons/temp-16.png",
+		"32": "icons/temp-32.png",
+		"48": "icons/temp-48.png",
+		"64": "icons/temp-64.png",
+		"96": "icons/temp-96.png"
+	}
+}
