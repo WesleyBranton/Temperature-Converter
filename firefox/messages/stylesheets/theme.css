@@ -42,7 +42,8 @@ section.whatsnew p.improved::before {
     padding: 5px;
 }
 
-a {
+section.support a,
+section.review a {
     border-radius: 100px;
     box-sizing: border-box;
     display: block;
