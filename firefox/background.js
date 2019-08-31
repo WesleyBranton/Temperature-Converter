@@ -10,8 +10,11 @@ browser.menus.create({
 });
 
 // Runs the converting script
-function convertTemp(tabId) {
-	chrome.tabs.executeScript({
+async function convertTemp(tabId) {
+	await browser.tabs.executeScript({
+		file: "/scripts/convert.js"
+	});
+	await browser.tabs.executeScript({
 		file: "/scripts/context_script.js"
 	});
 }
