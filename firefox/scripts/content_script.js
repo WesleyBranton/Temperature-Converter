@@ -5,7 +5,23 @@
 function convertTemps() {
 	var temps = document.getElementsByClassName('firefoxtempconvertedcomplete');
 	for (i = 0; i < temps.length; i++) {
-		temps[i].textContent += ' (CONVERTED)';
+		var temp;
+		var unit;
+		var unitVerify = temps[i].textContent.toUpperCase();
+		
+		if (unitVerify.search('F') > -1) {
+			// If temperature is fahrenheit
+			unit = '\u00B0' + 'C';
+			unitVerify = getNumber(unitVerify);
+			temp = ftoc(unitVerify);
+		} else if (unitVerify.search('C') > -1) {
+			// If temperature is celsius
+			unit = '\u00B0' + 'F';
+			unitVerify = getNumber(unitVerify);
+			temp = ctof(unitVerify);
+		}
+		
+		temps[i].textContent += ' (' + temp + unit + ')';
 	}
 }
 

@@ -12,6 +12,7 @@
 		"matches": ["<all_urls>"],
 		"js": [
 			"scripts/mark.min.js",
+			"scripts/convert.js",
 			"scripts/content_script.js"
 		],
 		"run_at": "document_end",
