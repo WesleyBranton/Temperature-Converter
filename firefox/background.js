@@ -32,41 +32,41 @@ var ratecode = id => openRating(id);
 
 // Displays error notification
 function listenMessage(message) {
-	chrome.notifications.onClicked.removeListener(ratecode);
+	browser.notifications.onClicked.removeListener(ratecode);
 	if (message.type == "error") {
 		// Notifications for error messages
-		chrome.notifications.create({
+		browser.notifications.create({
 			"type": "basic",
-			"iconUrl": chrome.extension.getURL("icons/error-64.png"),
+			"iconUrl": browser.runtime.getURL("icons/error-64.png"),
 			"title": "Error converting temperature!",
 			"message": message.error
 		});
 	} else if (message.type == "warning") {
 		// Notifications for error messages
-		chrome.notifications.create({
+		browser.notifications.create({
 			"type": "basic",
-			"iconUrl": chrome.extension.getURL("icons/warning-64.png"),
+			"iconUrl": browser.runtime.getURL("icons/warning-64.png"),
 			"title": "Error converting temperature!",
 			"message": message.error
 		});
 	} else if (message.type == "rate") {
 		// Notifications for rating reminder
-		chrome.notifications.create({
+		browser.notifications.create({
 			"type": "basic",
-			"iconUrl": chrome.extension.getURL("icons/rating-64.png"),
+			"iconUrl": browser.runtime.getURL("icons/rating-64.png"),
 			"title": "Have you rated this add-on yet?",
 			"message": message.text
 		});
-		chrome.notifications.onClicked.addListener(ratecode);
+		browser.notifications.onClicked.addListener(ratecode);
 	}
 }
 
 // Opens rating page
 function openRating(id) {
-	chrome.windows.create({
+	browser.windows.create({
 		url: "https://addons.mozilla.org/en-US/firefox/addon/temperature-converter-tool/reviews/"
 	});
-	chrome.storage.local.set({usageData: {times: "1", show: "0"}});
+	browser.storage.local.set({usageData: {times: "1", show: "0"}});
 }
 
 // Handles install/update
@@ -79,5 +79,5 @@ function handleInstalled(details) {
 }
 
 // Listens of an error
-chrome.runtime.onMessage.addListener(listenMessage);
+browser.runtime.onMessage.addListener(listenMessage);
 browser.runtime.onInstalled.addListener(handleInstalled);

@@ -24,7 +24,7 @@ function userTempSelect() {
 		var convertVerify = document.getElementsByClassName('firefoxtempconvertedcomplete');
 		for (var i = 0; i < convertVerify.length; i++) {
 			if (selection.containsNode(convertVerify[i],true)) {
-				chrome.runtime.sendMessage({"error": "The temperature you have selected has already been converted using this extension.\n\nPlease select a different temperature.","type": "warning"});
+				browser.runtime.sendMessage({"error": "The temperature you have selected has already been converted using this extension.\n\nPlease select a different temperature.","type": "warning"});
 				return;
 			}
 		}
@@ -44,7 +44,7 @@ function userTempSelect() {
 			} else {
 				// If there are extra characters after selection
 				extraCharVerification = false;
-				chrome.runtime.sendMessage({"error": "The temperature you have selected is invalid.\n\nPlease select a different temperature.","type": "error"});
+				browser.runtime.sendMessage({"error": "The temperature you have selected is invalid.\n\nPlease select a different temperature.","type": "error"});
 				return;
 			}
 		} while (extraCharVerification == true);
@@ -62,7 +62,7 @@ function userTempSelect() {
 				temp = ctof(unitVerify);
 			} else {
 				// If temperature is not valid
-				chrome.runtime.sendMessage({"error": "The temperature you have selected is invalid.\n\nPlease select a different temperature.","type": "error"});
+				browser.runtime.sendMessage({"error": "The temperature you have selected is invalid.\n\nPlease select a different temperature.","type": "error"});
 				return;
 			}
 			// Outputs converted temperature
@@ -75,7 +75,7 @@ function userTempSelect() {
 			window.getSelection().removeAllRanges();
 			
 			// Usage data count
-			chrome.storage.local.get("usageData", gotItem);
+			browser.storage.local.get("usageData", gotItem);
 		}
 	}
 }
@@ -90,15 +90,15 @@ function gotItem(item) {
 			var current = parseInt(item.usageData.times);
 			current = current + 1;
 			current = '' + current;
-			chrome.storage.local.set({usageData: {times: current, show: "1"}});
+			browser.storage.local.set({usageData: {times: current, show: "1"}});
 			if (parseInt(current) % 50 == 0) {
 				// If the user needs to be reminded to rate the add-on
-				chrome.runtime.sendMessage({"type": "rate","text": "Are you liking this add-on? Please tell Firefox users how great this add-on is!\n\nClick this notification to open the Firefox add-on listing in a new window."});
+				browser.runtime.sendMessage({"type": "rate","text": "Are you liking this add-on? Please tell Firefox users how great this add-on is!\n\nClick this notification to open the Firefox add-on listing in a new window."});
 			}
 		}
 	} else {
 		// If there is no data setup
-		chrome.storage.local.set({usageData: {times: "1", show: "1"}});
+		browser.storage.local.set({usageData: {times: "1", show: "1"}});
 	}
 }
 
