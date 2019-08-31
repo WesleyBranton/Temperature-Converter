@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 // Creates context menu item
-chrome.contextMenus.create({
+browser.menus.create({
 	id: "convert-temp",
 	title: "Convert selected temperature",
 	contexts: ["selection"]
@@ -17,7 +17,7 @@ function convertTemp(tabId) {
 }
 
 // Runs the function to access the converting script with the context menu item is selected
-chrome.contextMenus.onClicked.addListener(function(info, tab) {
+browser.menus.onClicked.addListener(function(info, tab) {
 	switch (info.menuItemId) {
 		case "convert-temp":
 		convertTemp(tab.id);

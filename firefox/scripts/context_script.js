@@ -21,11 +21,9 @@ function userTempSelect() {
 		var unitVerify = originalSelection.toUpperCase();
 		
 		// Checks if user has already converted
-		//convertVerify();
 		var convertVerify = document.getElementsByClassName('firefoxtempconvertedcomplete');
 		for (var i = 0; i < convertVerify.length; i++) {
 			if (selection.containsNode(convertVerify[i],true)) {
-				//alert('Error! Value has aleady been converted.');
 				chrome.runtime.sendMessage({"error": "The temperature you have selected has already been converted using this extension.\n\nPlease select a different temperature.","type": "warning"});
 				return;
 			}

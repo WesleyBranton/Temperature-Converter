@@ -19,7 +19,7 @@
 	}],
 
 	"permissions": [
-		"contextMenus",
+		"menus",
 		"activeTab",
 		"notifications",
 		"storage",
