@@ -3,14 +3,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 function saveOptions() {
-	browser.storage.local.set({
-		allowAuto: document.getElementById('allowAuto').checked
-	});
+    browser.storage.local.set({
+        allowAuto: document.getElementById('allowAuto').checked
+    });
 }
 
 function restoreOptions(item) {
-	document.getElementById('allowAuto').checked = item.allowAuto;
+    document.getElementById('allowAuto').checked = item.allowAuto;
 }
 
-browser.storage.local.get("allowAuto", restoreOptions);
-document.querySelector("form").addEventListener("change", saveOptions);
+browser.storage.local.get('allowAuto', restoreOptions);
+document.querySelector('form').addEventListener('change', saveOptions);
