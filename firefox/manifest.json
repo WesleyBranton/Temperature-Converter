@@ -8,16 +8,9 @@
 		"scripts": ["background.js"]
 	},
 	
-	"content_scripts": [{
-		"matches": ["<all_urls>"],
-		"js": [
-			"scripts/mark.min.js",
-			"scripts/convert.js",
-			"scripts/content_script.js"
-		],
-		"run_at": "document_end",
-		"all_frames": true
-	}],
+	"options_ui": {
+		"page": "options/options.html"
+	},
 
 	"permissions": [
 		"menus",

@@ -29,6 +29,7 @@ browser.menus.onClicked.addListener(function(info, tab) {
 });
 
 var ratecode = id => openRating(id);
+var contentScript = null;
 
 // Displays error notification
 function listenMessage(message) {
@@ -78,6 +79,49 @@ function handleInstalled(details) {
 	}
 }
 
+// Enables/disables content script (handles auto convert)
+async function updateContentScript() {
+	// Removes existing content script (if necessary)
+	if (contentScript) {
+		contentScript.unregister();
+	}
+	
+	// Load "auto convert" setting
+	let data = await browser.storage.local.get("allowAuto");
+	
+	// Sets default value if "auto convert" is not set
+	if (typeof data.allowAuto == "undefined") {
+		browser.storage.local.set({
+			allowAuto: true
+		});
+		return;
+	}
+	
+	// Enables auto convert (if requried)
+	if (data.allowAuto) {
+		contentScript = await browser.contentScripts.register({
+			matches: ["<all_urls>"],
+			js: [
+				{file: "scripts/mark.min.js"},
+				{file: "scripts/convert.js"},
+				{file: "scripts/content_script.js"}
+			],
+			runAt: "document_end",
+			allFrames: true
+		});
+	}
+}
+
+// Handles changes to storage API
+function handleStorageChange(changes, area) {
+	// Triggers enable/disable of auto convert
+	if (typeof changes.allowAuto != "undefined") {
+		updateContentScript();
+	}
+}
+
 // Listens of an error
+updateContentScript();
 browser.runtime.onMessage.addListener(listenMessage);
 browser.runtime.onInstalled.addListener(handleInstalled);
+browser.storage.onChanged.addListener(handleStorageChange);
