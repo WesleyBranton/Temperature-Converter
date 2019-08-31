@@ -4,41 +4,43 @@
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Thanks for installing the Temperature Converter!</title>
-		<link rel="stylesheet" href="stylesheets/theme.css"/>
-		<link rel="shortcut icon" type="image/png" href="../icons/temp-96.png"/>
-	</head>
-	<body>
-		<div class="container">
-			<header>
-				<img src="../icons/temp-96.png"/>
-				<h1>Thanks for installing the Temperature Converter addon!</h1>
-			</header>
-			<section class="description">
-				<p>Nearly half of the world’s population has access to the internet from hundreds of countries. The internet is the largest global knowledge base and community, but some users may have issues with measurement units that are not commonly used in their region. In order to fully appreciate and comprehend the countless amounts of data that are displayed on the World Wide Web, users need to see these measurements in units which they can fully understand and relate to.</p>
-				<p>The most common measurement which internet users like to see converted to their local unit is temperature. People frequently find a need to convert between Celsius and Fahrenheit. To do so, they will often resort to an online temperature conversion website.</p>
-				<p>But what if there was a way to convert your temperatures directly from Firefox? Well now there is!</p>
-				<p>The Temperature Converter is the first Firefox add-on that allows you go quickly convert onscreen temperatures without any external navigation. Simply highlight the temperature with the mouse cursor and use the convenient context menu button to display the temperature in either Celsius or Fahrenheit.</p>
-			</section>
-			<section class="howitworks">
-				<h2>How It Works</h2>
-				<p>It’s incredibly easy to convert temperatures using this addon! Simply highlight the temperature that you want to convert, right click and select Convert selected temperature from the context menu! Try it out on the temperature below:</p>
-				<span id="tempconverttest"></span>
-				<div class="note firefoxtempconvertedcomplete">
-					<p>Having trouble? Make sure to highlight all of the numbers in the temperature and the unit at the end, while ensuring not to select any extra characters before or after the temperature. For example:</p>
-					<p class="example fail">...boils a<span>t 100&deg;C</span> and...</p>
-					<p class="example fail">...boils at 10<span>0&deg;C</span> and...</p>
-					<p class="example fail">...boils at <span>100&deg;C a</span>nd...</p>
-					<p class="example pass">...boils at <span>100&deg;C</span> and...</p>
-				</div>
-			</section>
-			<section class="support">
-				<h2>Show Your Support</h2>
-				<p>This addon is free to use. However, it times time and effort to develop and maintain this addon. Show your support by sending a donation to the the developer of this addon.</p>
-				<a href="https://www.paypal.me/wbrantonaddons" target="_blank">Make A Donation</a>
-			</section>
-		</div>
-		<script src="scripts/new.js"></script>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Thanks for installing the Temperature Converter!</title>
+        <link rel="stylesheet" href="stylesheets/theme.css">
+        <link rel="shortcut icon" type="image/png" href="../icons/temp-96.png">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <img src="../icons/temp-96.png">
+                <h1>Thanks for installing the Temperature Converter addon!</h1>
+            </header>
+            <section class="description">
+                <p>Nearly half of the world's population has access to the internet from hundreds of countries. The internet is the largest global knowledge base and community, but some users may have issues with measurement units that are not commonly used in their region. In order to fully appreciate and comprehend the countless amounts of data that are displayed on the World Wide Web, users need to see these measurements in units which they can fully understand and relate to.</p>
+                <p>The most common measurement which internet users like to see converted to their local unit is temperature. People frequently find a need to convert between Celsius and Fahrenheit. To do so, they will often resort to an online temperature conversion website.</p>
+                <p>But what if there was a way to convert your temperatures directly from Firefox? Well now there is!</p>
+                <p>The Temperature Converter is the first Firefox add-on that allows you go quickly convert onscreen temperatures without any external navigation. Simply highlight the temperature with the mouse cursor and use the convenient context menu button to display the temperature in either Celsius or Fahrenheit.</p>
+				<p><b>The best part is... the extension will try to automatically convert temperatures when you load a website! (<a href="https://github.com/WesleyBranton/Temperature-Converter/wiki/Automatic-temperature-converting" target="_blank">More details</a>)</b></p>
+            </section>
+            <section class="howitworks">
+                <h2>How It Works</h2>
+                <p>It's incredibly easy to convert temperatures using this addon! Simply highlight the temperature that you want to convert, right click and select Convert selected temperature from the context menu! Try it out on the temperature below:</p>
+                <span id="tempconverttest"><span id="tempconverttest1"></span><span id="tempconverttest2"></span></span>
+                <div class="note">
+                    <p>Having trouble? Make sure to highlight all of the numbers in the temperature and the unit at the end, while ensuring not to select any extra characters before or after the temperature. For example:</p>
+                    <p class="example fail">...boils a<span>t 100&deg;<nouse>C</nouse></span> and...</p>
+                    <p class="example fail">...boils at 10<span>0&deg;<nouse>C</nouse></span> and...</p>
+                    <p class="example fail">...boils at <span>100&deg;<nouse>C</nouse> a</span>nd...</p>
+                    <p class="example pass">...boils at <span>100&deg;<nouse>C</nouse></span> and...</p>
+                </div>
+            </section>
+            <section class="support">
+                <h2>Show Your Support</h2>
+                <p>This addon is free to use. However, it times time and effort to develop and maintain this addon. Show your support by sending a donation to the the developer of this addon.</p>
+                <a href="https://www.paypal.me/wbrantonaddons" target="_blank">Make A Donation</a>
+            </section>
+        </div>
+        <script src="scripts/new.js"></script>
+    </body>
 </html>

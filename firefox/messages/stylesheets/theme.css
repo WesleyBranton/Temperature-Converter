@@ -1,118 +1,115 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at https: //mozilla.org/MPL/2.0/. */
 
 body {
-	padding:10px 50px;
-	background-color:green;
-	background-image:url("../images/background.jpg");
-	background-size:cover;
-	background-position:center;
-	background-repeat:no-repeat;
-	background-attachment:fixed;
-	text-align:center;
-	font-family:sans-serif;
+    background: green url(../images/background.jpg) center fixed no-repeat;
+    background-size: cover;
+    font: normal 12pt sans-serif;
+    padding: 10px 50px;
+    text-align: center;
 }
 
 section.whatsnew p.changed::before {
-	content:"CHANGED";
-	background-color:#3399FF;
-	margin-right:10px;
-	padding:5px;
-	font-weight:bold;
+    background: #3399FF;
+    content: "CHANGED";
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 5px;
 }
 
 section.whatsnew p.fixed::before {
-	content:"FIXED";
-	background-color:#FFCC00;
-	margin-right:10px;
-	padding:5px;
-	font-weight:bold;
+    background: #FFCC00;
+    content: "FIXED";
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 5px;
 }
 
 section.whatsnew p.new::before {
-	content:"NEW";
-	background-color:#00CC66;
-	margin-right:10px;
-	padding:5px;
-	font-weight:bold;
+    background: #00CC66;
+    content: "NEW";
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 5px;
 }
 
 section.whatsnew p.improved::before {
-	content:"IMPROVED";
-	background-color:#FF9900;
-	margin-right:10px;
-	padding:5px;
-	font-weight:bold;
+    background: #FF9900;
+    content: "IMPROVED";
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 5px;
 }
 
-a {
-	text-decoration:none;
-	padding:20px;
-	margin:25px;
-	box-sizing:border-box;
-	display:block;
-	font-size:150%;
-	border-radius:100px;
-	transition:ease all 0.5s;
+section.support a,
+section.review a {
+    border-radius: 100px;
+    box-sizing: border-box;
+    display: block;
+    font-size: 150%;
+    margin: 25px;
+    padding: 20px;
+    text-decoration: none;
+    transition: ease all .5s;
 }
 
 section.support a {
-	color:white;
-	background-color:#003087;
+    color: white;
+    background-color: #003087;
 }
 
 section.review a {
-	color:white;
-	background-color:#ffcc00;
+    background: #FFCC00;
+    color: white;
 }
 
 a:hover {
-	filter:brightness(200%);
+    filter: brightness(200%);
 }
 
 p.example.pass span {
-	background-color:#00CC66;
+    background-color: #00CC66;
 }
 
 p.example.fail span {
-	background-color:#FF3333;
+    background: #FF3333;
 }
 
 section.howitworks div.note {
-	background-color:#99CCFF;
-	padding:5px 10px;
-	margin:20px;
-	box-sizing:border-box;
-	border-radius:10px;
+    background: #99CCFF;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin: 20px;
+    padding: 5px 10px;
 }
 
 span#tempconverttest {
-	background-color:white;
-	padding:10px 30px;
-	font-size:200%;
+    background: white;
+    font-size: 200%;
+    padding: 10px 30px;
 }
 
 span#tempconverttest span.firefoxtempconvertedcomplete {
-	color:#00CC66;
+    color: #00CC66;
 }
 
 span#tempconverttest span.firefoxtempconvertedcomplete::after {
-	content:"\002714 It's that simple!";
+    content: "\002714 It's that simple!";
 }
 
 div.container {
-	background-color:rgba(255,255,255,0.9);
-	padding:50px;
-	border-radius:50px;
+    background: rgba(255, 255, 255, .9);
+    border-radius: 50px;
+    padding: 50px;
 }
 
 header, section.description {
-	text-align:center;
+    text-align: center;
 }
 
 header img {
-	background-color:#99CCFF;
-	padding:10px;
-	border-radius:100%;
+    background: #99CCFF;
+    border-radius: 100%;
+    padding: 10px;
 }
