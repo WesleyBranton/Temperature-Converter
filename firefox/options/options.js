@@ -3,13 +3,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 function saveOptions() {
+    if (document.settings.allowAuto.value == 'true') {
+        var allowAuto = true;
+    } else {
+        var allowAuto = false;
+    }
     browser.storage.local.set({
-        allowAuto: document.getElementById('allowAuto').checked
+        allowAuto: allowAuto
     });
 }
 
 function restoreOptions(item) {
-    document.getElementById('allowAuto').checked = item.allowAuto;
+    document.settings.allowAuto.value = item.allowAuto;
 }
 
 browser.storage.local.get('allowAuto', restoreOptions);

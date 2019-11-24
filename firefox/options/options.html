@@ -6,15 +6,20 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="theme.css">
+        <link rel="stylesheet" href="../lib/new_browser_style.css">
     </head>
-    <body>
-        <form>
-            <fieldset>
-                <legend>Extension Options</legend>
-                <input type="checkbox" id="allowAuto" name="allowAuto">
-                <label for="allowAuto">Allow temperatures to be automatically converted when a page is loaded</label>
-            </fieldset>
+    <body class="browser-style">
+        <form name="settings">
+            <section class="panel-section has-help">
+                <label>Automatically convert temperatures</label>
+                <div>
+                    <label><input type="radio" name="allowAuto" value="true"> Allow</label>
+                    <label><input type="radio" name="allowAuto" value="false"> Deny</label>
+                </div>
+            </section>
+            <section class="panel-section help-row">
+                Scan website for temperatures and insert the converted temperature automatically
+            </section>
         </form>
         <script src="options.js"></script>
     </body>
