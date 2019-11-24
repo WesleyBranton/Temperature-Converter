@@ -17,6 +17,9 @@ To develop and test the extension, you need to open the "about:debugging" page i
 Further documentation about developing Firefox extensions can be found [here](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).
 
 ## Release Notes
+### Version 2.0.1
+* **[CHANGE]** Overhauled options UI
+
 ### Version 2.0
 * **[NEW]** Temperatures are automatically converted when a website loads [(more details)](https://github.com/WesleyBranton/Temperature-Converter/wiki/Automatic-temperature-converting)
 
