@@ -96,13 +96,18 @@ async function updateContentScript() {
     }
     
     // Load 'auto convert' setting
-    let data = await browser.storage.local.get('allowAuto');
+    let data = await browser.storage.local.get(['allowAuto', 'allowAutoAdvanced']);
     
-    // Sets default value if 'auto convert' is not set
-    if (typeof data.allowAuto == 'undefined') {
-        browser.storage.local.set({
-            allowAuto: true
-        });
+    // Sets default values if 'auto convert' or 'auto convert advanced' are not set
+    if ((typeof data.allowAuto == 'undefined') || (typeof data.allowAutoAdvanced == 'undefined')) {
+        const newSettings = {};
+        if (typeof data.allowAuto == 'undefined') {
+            newSettings.allowAuto = true;
+        }
+        if (typeof data.allowAutoAdvanced == 'undefined') {
+            newSettings.allowAutoAdvanced = false;
+        }
+        browser.storage.local.set(newSettings);
         return;
     }
     
@@ -124,7 +129,7 @@ async function updateContentScript() {
 // Handles changes to storage API
 function handleStorageChange(changes, area) {
     // Triggers enable/disable of auto convert
-    if (typeof changes.allowAuto != 'undefined') {
+    if ((typeof changes.allowAuto != 'undefined') || (typeof changes.allowAutoAdvanced != 'undefined')) {
         updateContentScript();
     }
 }
