@@ -18,11 +18,7 @@ function restoreOptions(item) {
 
 // Convert string to boolean
 function toBoolean(string) {
-    if (string == 'true') {
-        return true;
-    } else {
-        return false;
-    }
+    return string == 'true';
 }
 
 browser.storage.local.get(['allowAuto', 'allowAutoAdvanced'], restoreOptions);
