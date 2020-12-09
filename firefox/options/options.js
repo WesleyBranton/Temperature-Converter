@@ -8,20 +8,27 @@ function saveOptions() {
         allowAuto: toBoolean(document.settings.allowAuto.value),
         allowAutoAdvanced: toBoolean(document.settings.allowAutoAdvanced.value)
     });
+    updateUI();
 }
 
 // Load settings from storage
 function restoreOptions(item) {
     document.settings.allowAuto.value = item.allowAuto;
     document.settings.allowAutoAdvanced.value = item.allowAutoAdvanced;
+    updateUI();
 }
 
 // Convert string to boolean
 function toBoolean(string) {
-    if (string == 'true') {
-        return true;
-    } else {
-        return false;
+    return string == 'true';
+}
+
+// Updates the UI based on the user settings
+function updateUI() {
+    const allowAutoEnabled = toBoolean(document.settings.allowAuto.value);
+    for (i = 0; i < document.settings.allowAutoAdvanced.length; i++) {
+        document.settings.allowAutoAdvanced[i].disabled = !allowAutoEnabled;
+        document.settings.allowAutoAdvanced[i].title = (!allowAutoEnabled) ? "Automatically convert temperatures must be allowed" : "";
     }
 }
 

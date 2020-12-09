@@ -5,8 +5,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Temperature Converter Preferences</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="../lib/new_browser_style.css">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body class="browser-style">
         <form name="settings">
@@ -20,17 +22,16 @@
             <section class="panel-section help-row">
                 Scan website for temperatures and insert the converted temperature automatically
             </section>
-            <hr>
-            <section class="panel-section has-help">
+            <div class="panel-section-separator"></div>
+            <section class="panel-section has-help sub">
                 <label>Automatically convert temperatures - Advanced</label>
                 <div>
                     <label><input type="radio" name="allowAutoAdvanced" value="true"> Allow</label>
                     <label><input type="radio" name="allowAutoAdvanced" value="false"> Deny</label>
                 </div>
             </section>
-            <section class="panel-section help-row">
-                Expand the automatic converting of temperatures to include temperatures formatted without degree symbol (e.g. "180C" or "180 c")<br>
-                Only applies if "Automatically convert temperatures" is set to "Allow"
+            <section class="panel-section help-row sub">
+                Expand the automatic converting of temperatures to include temperatures formatted without degree symbol (e.g. "180C" or "180 c")
             </section>
         </form>
         <script src="options.js"></script>
