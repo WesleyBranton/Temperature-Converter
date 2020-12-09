@@ -33,5 +33,14 @@ var options = {
     element: 'span',
     className: 'firefoxtempconvertedcomplete'
 };
-instance.markRegExp(/-?\d*\.?\d+\s?\°\s?(C|F|c|f)/, options);
-convertTemps();
+var tempRegex;
+browser.storage.local.get('allowAutoAdvanced', (item) => {
+    if (item.allowAutoAdvanced) {
+        tempRegex = /-?\d*\.?\d+\s?\°?\s?(C|F|c|f)/;
+    }
+    else {
+        tempRegex = /-?\d*\.?\d+\s?\°\s?(C|F|c|f)/;
+    }
+    instance.markRegExp(tempRegex, options);
+    convertTemps();
+});

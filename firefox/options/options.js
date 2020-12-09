@@ -5,13 +5,15 @@
 // Save settings
 function saveOptions() {
     browser.storage.local.set({
-        allowAuto: toBoolean(document.settings.allowAuto.value)
+        allowAuto: toBoolean(document.settings.allowAuto.value),
+        allowAutoAdvanced: toBoolean(document.settings.allowAutoAdvanced.value)
     });
 }
 
 // Load settings from storage
 function restoreOptions(item) {
     document.settings.allowAuto.value = item.allowAuto;
+    document.settings.allowAutoAdvanced.value = item.allowAutoAdvanced;
 }
 
 // Convert string to boolean
@@ -23,5 +25,5 @@ function toBoolean(string) {
     }
 }
 
-browser.storage.local.get('allowAuto', restoreOptions);
+browser.storage.local.get(['allowAuto', 'allowAutoAdvanced'], restoreOptions);
 document.querySelector('form').addEventListener('change', saveOptions);
