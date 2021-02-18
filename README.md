@@ -17,27 +17,4 @@ To develop and test the extension, you need to open the "about:debugging" page i
 Further documentation about developing Firefox extensions can be found [here](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).
 
 ## Release Notes
-### Version 2.0.1
-* **[CHANGE]** Overhauled options UI
-
-### Version 2.0
-* **[NEW]** Temperatures are automatically converted when a website loads [(more details)](https://github.com/WesleyBranton/Temperature-Converter/wiki/Automatic-temperature-converting)
-
-### Version 1.3.1
-* **[NEW]** Added error message icons
-* **[NEW]** Added usage instructions
-* **[NEW]** Added release notes
-* **[FIXED]** Fixed decimal detection issue
-
-### Version 1.3
-See version 1.3.1 release notes
-
-### Version 1.2
-* **[NEW]** Digit separator for large conversions
-* **[NEW]** User add-on review reminder system
-* **[FIXED]** Code optimization
-
-### Version 1.1
-* **[CHANGED]** Moved error messages to Firefox notifications so that they are not as intrusive
-* **[CHANGED]** Error messages are more detailed
-* **[FIXED]** Extension now outputs the same number of decimals as the original selection
+Release notes can be found on [this GitHub repository](https://github.com/WesleyBranton/Temperature-Converter/releases) or [the Firefox add-ons listing](https://addons.mozilla.org/en-CA/firefox/addon/temperature-converter-tool/versions/).
