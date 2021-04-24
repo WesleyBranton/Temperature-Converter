@@ -36,10 +36,10 @@ var options = {
 var tempRegex;
 browser.storage.local.get('allowAutoAdvanced', (item) => {
     if (item.allowAutoAdvanced) {
-        tempRegex = /-?\d*\.?\d+\s?\°?\s?(C|F|c|f)/;
+        tempRegex = /-?\d*\.?\d+\s?\°?\s?(C|F|c|f)(?!([\da-zA-Z]))/;
     }
     else {
-        tempRegex = /-?\d*\.?\d+\s?\°\s?(C|F|c|f)/;
+        tempRegex = /-?\d*\.?\d+\s?\°\s?(C|F|c|f)(?!([\da-zA-Z]))/;
     }
     instance.markRegExp(tempRegex, options);
     convertTemps();
