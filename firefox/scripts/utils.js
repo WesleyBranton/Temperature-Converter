@@ -101,7 +101,5 @@ function convertTemperature(value, from, to) {
         converted = (value.temperature * (9 / 5)) + 32;
     }
 
-    converted = new Intl.NumberFormat().format(converted);
-
-    return converted;
+    return new Intl.NumberFormat().format(converted);
 }
