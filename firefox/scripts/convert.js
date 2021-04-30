@@ -2,141 +2,106 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-// Pulls number from user selection
-function getNumber(num) {
-    // Creates temporary variables
-    var charPos = 0;
-    var result = {
+/**
+ * Pulls number from user selection
+ * @param {String} text
+ * @returns Number
+ */
+function getNumber(text) {
+    let charPos = 0;
+    let result = {
         temperature : '',
         decimalPlaces : 0
     };
-    var loop = true;
-    var currentCharacter;
-    var hasDecimal = false;
+    let negative = false;
+    let loop = true;
+    let currentCharacter;
+    let hasDecimal = false;
     
-    // Cycles through characters to determine if they are valid numbers
-    do {
-        currentCharacter = num.charAt(charPos);
-        if (currentCharacter == ' ' || currentCharacter == ',') {
-            // If character is a space or a digit group separator
-            charPos = charPos + 1;
-        } else if (result.temperature == '' && currentCharacter == '-') {
-            // If first character is a valid negative
-            result.temperature = '-';
-            charPos = charPos + 1;
-        } else if (currentCharacter == '-') {
-            // If number contains an invalid negative
-            loop = false;
-            result.temperature = '';
-        } else if (result.temperature != '-' && result.temperature != '' && hasDecimal == false && currentCharacter == '.') {
-            // If number contains a valid decimal
-            result.temperature = result.temperature + currentCharacter;
-            hasDecimal = true;
-            charPos = charPos + 1;
-        } else if ((result.temperature == '-' || result.temperature == '' || hasDecimal == true) && currentCharacter == '.') {
-            // If number contains two decimals
-            loop = false;
-            result.temperature = '';
-        } else if (currentCharacter == '1' || currentCharacter == '2' || currentCharacter == '3' || currentCharacter == '4' || currentCharacter == '5' || currentCharacter == '6' || currentCharacter == '7' || currentCharacter == '8' || currentCharacter == '9' || currentCharacter == '0') {
-            // If character is a number
-            result.temperature = result.temperature + currentCharacter;
-            charPos = charPos + 1;
-        } else if (currentCharacter == 'F' || currentCharacter == 'C' || currentCharacter === '°') {
-            // If number reachs end marker
-            loop = false;
-        } else {
-            // Other error
-            loop = false;
+    do { // Cycles through characters to determine if they are valid numbers
+        currentCharacter = text.charAt(charPos);
+
+        switch(currentCharacter) {
+            case ' ':
+            case ',': // Character is a space or a digit group separator
+                charPos++;
+                break;
+            case '-':
+                if (result.temperature.length == 0 && !negative) { // If first character is a valid negative
+                    negative = true;
+                    charPos++;
+                } else { // If number contains an invalid negative
+                    loop = false;
+                    result.temperature = '';
+                }
+                break;
+            case '.':
+                if (!hasDecimal && !negative && result.temperature.length > 0) { // If number contains a valid decimal
+                    result.temperature += currentCharacter;
+                    hasDecimal = true;
+                    charPos++;
+                } else { // If number contains two decimals
+                    loop = false;
+                    result.temperature = '';
+                }
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9': // If character is a number
+                result.temperature += currentCharacter;
+                charPos++;
+                break;
+            default:
+                loop = false;
         }
     } while (loop);
     
-    // Counts number of decimal places in the original selection
-    if (hasDecimal == true) {
-        var resultLength = result.temperature.length;
-        var detected = false;
-        var numOfDec = 0;
+    if (hasDecimal == true) { // Counts number of decimal places in the original selection
+        let detected = false;
+        let numOfDec = 0;
+
         do {
-            var testChar = result.temperature.charAt(resultLength - numOfDec - 1);
-            if (testChar == '1' || testChar == '2' || testChar == '3' || testChar == '4' || testChar == '5' || testChar == '6' || testChar == '7' || testChar == '8' || testChar == '9' || testChar == '0') {
-                // If character is a number
-                numOfDec = numOfDec + 1;
-            } else {
-                // If character is a decimal
+            const testChar = result.temperature.charAt(result.temperature.length - numOfDec - 1);
+            if (!isNaN(parseInt(testChar))) { // If character is a number
+                numOfDec++;
+            } else { // If character is a decimal
                 detected = true;
             }
-        } while (detected == false);
+        } while (!detected);
+
         result.decimalPlaces = numOfDec;
     }
+
     result.temperature = parseFloat(result.temperature);
+    if (negative) result.temperature *= -1;
+
     return result;
 }
 
-function ftoc(temp) {
-    // Convert from Fahrenheit to Celsius
-    var converted = (temp.temperature - 32) * (5 / 9);
-    converted = converted.toFixed(temp.decimalPlaces);
-    converted = digitSeperate(converted, temp);
-    return converted;
-}
+/**
+ * Converts temperature into the desired unit
+ * @param {number} value
+ * @param {String} from
+ * @param {String} to
+ * @returns Converted number
+ */
+function convertTemperature(value, from, to) {
+    let converted;
 
-function ctof(temp) {
-    // Convert from Celsius to Fahrenheit
-    var converted = (temp.temperature * (9 / 5)) + 32;
-    converted = converted.toFixed(temp.decimalPlaces);
-    converted = digitSeperate(converted, temp);
-    return converted;
-}
-
-// Adds comma to seperate thousands
-function digitSeperate(num,temp) {
-    var number = '' + num;
-    var decimal = temp.decimalPlaces;
-    var charPos = number.length - 1;
-    var charCount = 0;
-    var loop = true;
-    var result = '';
-    // Determines if there is a decimal
-    if (decimal <= 0) {
-        // If there is no decimal
-        var charPos = number.length - 1;
-    } else {
-        // If there is a decimal
-        var decLoop = true;
-        var charPos = number.length - 1;
-        do {
-            var current = number.charAt(charPos);
-            if (current == '.') {
-                decLoop = false;
-            }
-            charPos = charPos - 1;
-            result = current + result;
-        } while (decLoop);
+    if (to == 'C') { // Fahrenheit --> Celsius
+        converted = (value.temperature - 32) * (5 / 9);
+    } else { // Celsius --> Fahrenheit
+        converted = (value.temperature * (9 / 5)) + 32;
     }
-    // Counts characters
-    do {
-        var currentChar = num.charAt(charPos);
-        charCount = charCount + 1;
-        if (charCount >= 4) {
-            // If three characters have been counted
-            if (charPos > 0) {
-                // If there are more characters
-                result = ',' + currentChar + result;
-            } else {
-                // If there are no more characters
-                result = currentChar + result;
-            }
-            charCount = 0;
-            charPos = charPos - 1;
-        } else {
-            // If three characters have not been counted
-            result = currentChar + result;
-            charCount = charCount + 1;
-            charPos = charPos - 1;
-        }
-        if (charPos < 0) {
-            // If there are no more characters
-            loop = false;
-        }
-    } while (loop);
-    return result;
+
+    converted = new Intl.NumberFormat().format(converted);
+
+    return converted;
 }

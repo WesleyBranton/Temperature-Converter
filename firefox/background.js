@@ -2,6 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+let contentScript = null;
+
+updateContentScript();
+browser.runtime.onMessage.addListener(manageBrowserNotifications);
+browser.runtime.onInstalled.addListener(handleInstalled);
+browser.storage.onChanged.addListener(handleStorageChange);
+
 // Creates context menu item
 browser.menus.create({
     id: 'convert-temp',
@@ -9,64 +16,69 @@ browser.menus.create({
     contexts: ['selection']
 });
 
-// Runs the converting script
-async function convertTemp(tabId) {
-    await browser.tabs.executeScript({
+// Runs the function to access the converting script with the context menu item is selected
+browser.menus.onClicked.addListener((info, tab) => {
+    switch (info.menuItemId) {
+        case 'convert-temp':
+            convertTemperature(tab.id);
+            break;
+    }
+});
+
+/**
+ * Runs the converting script
+ * @async
+ * @param {number} tabId
+ */
+async function convertTemperature(tabId) {
+    await browser.tabs.executeScript(tabId, {
         file: '/scripts/convert.js'
     });
-    await browser.tabs.executeScript({
+    await browser.tabs.executeScript(tabId, {
         file: '/scripts/context_script.js'
     });
 }
 
-// Runs the function to access the converting script with the context menu item is selected
-browser.menus.onClicked.addListener(function(info, tab) {
-    switch (info.menuItemId) {
-        case 'convert-temp':
-        convertTemp(tab.id);
-        break;
-    }
-});
+/**
+ * Handles browser notifications
+ * @param {Object} message 
+ */
+function manageBrowserNotifications(message) {
+    browser.notifications.onClicked.removeListener(openRating);
 
-var ratecode = id => openRating(id);
-var contentScript = null;
-
-// Displays error notification
-function listenMessage(message) {
-    browser.notifications.onClicked.removeListener(ratecode);
-    if (message.type == 'error') {
-        // Notifications for error messages
+    if (message.type == 'error') { // Notifications for error messages
         browser.notifications.create({
             type: 'basic',
             iconUrl: browser.runtime.getURL('icons/error-64.png'),
             title: 'Error converting temperature!',
             message: message.error
         });
-    } else if (message.type == 'warning') {
-        // Notifications for error messages
+    } else if (message.type == 'warning') { // Notifications for error messages
         browser.notifications.create({
             type: 'basic',
             iconUrl: browser.runtime.getURL('icons/warning-64.png'),
             title: 'Error converting temperature!',
             message: message.error
         });
-    } else if (message.type == 'rate') {
-        // Notifications for rating reminder
+    } else if (message.type == 'rate') { // Notifications for rating reminder
         browser.notifications.create({
             type: 'basic',
             iconUrl: browser.runtime.getURL('icons/rating-64.png'),
             title: 'Have you rated this add-on yet?',
             message: message.text
         });
-        browser.notifications.onClicked.addListener(ratecode);
+        browser.notifications.onClicked.addListener(openRating);
     }
 }
 
-// Opens rating page
-function openRating(id) {
+/**
+ * Opens rating page
+ */
+function openRating() {
     browser.windows.create({
         url: 'https://addons.mozilla.org/en-US/firefox/addon/temperature-converter-tool/reviews/'
     });
+
     browser.storage.local.set({
         usageData: {
             times: '1',
@@ -75,7 +87,10 @@ function openRating(id) {
     });
 }
 
-// Handles install/update
+/**
+ * Handles extension installation and updates
+ * @param {Object} details
+ */
 function handleInstalled(details) {
     if (details.reason == 'install') {
         browser.tabs.create({
@@ -88,15 +103,18 @@ function handleInstalled(details) {
     }
 }
 
-// Enables/disables content script (handles auto convert)
+/**
+ * Enables/disables content script (handles auto convert)
+ * @async
+ * @returns On error
+ */
 async function updateContentScript() {
-    // Removes existing content script (if necessary)
-    if (contentScript) {
+    if (contentScript) { // Removes existing content script (if necessary)
         contentScript.unregister();
     }
     
     // Load 'auto convert' setting
-    let data = await browser.storage.local.get(['allowAuto', 'allowAutoAdvanced']);
+    const data = await browser.storage.local.get();
     
     // Sets default values if 'auto convert' or 'auto convert advanced' are not set
     if ((typeof data.allowAuto == 'undefined') || (typeof data.allowAutoAdvanced == 'undefined')) {
@@ -116,7 +134,7 @@ async function updateContentScript() {
         contentScript = await browser.contentScripts.register({
             matches: ['<all_urls>'],
             js: [
-                {file: 'scripts/mark.min.js'},
+                {file: 'lib/mark.min.js'},
                 {file: 'scripts/convert.js'},
                 {file: 'scripts/content_script.js'}
             ],
@@ -133,9 +151,3 @@ function handleStorageChange(changes, area) {
         updateContentScript();
     }
 }
-
-// Listens of an error
-updateContentScript();
-browser.runtime.onMessage.addListener(listenMessage);
-browser.runtime.onInstalled.addListener(handleInstalled);
-browser.storage.onChanged.addListener(handleStorageChange);

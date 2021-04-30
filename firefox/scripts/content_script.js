@@ -2,45 +2,41 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-// Convert found temperatures
-function convertTemps() {
-    var temps = document.getElementsByClassName('firefoxtempconvertedcomplete');
-    for (i = 0; i < temps.length; i++) {
-        var temp;
-        var unit;
-        var unitVerify = temps[i].textContent.toUpperCase();
+/**
+ * Convert found temperatures
+ */
+function convertTemperatures() {
+    const temperatures = document.getElementsByClassName('firefoxtempconvertedcomplete');
+
+    for (let temperature of temperatures) {
+        let value, unit;
+        let text = temperature.textContent.toUpperCase();
         
-        if (unitVerify.search('F') > -1) {
-            // If temperature is fahrenheit
+        if (text.includes('F')) { // If temperature is fahrenheit
             unit = '\u00B0' + 'C';
-            unitVerify = getNumber(unitVerify);
-            temp = ftoc(unitVerify);
-        } else if (unitVerify.search('C') > -1) {
-            // If temperature is celsius
+            text = getNumber(text);
+            value = convertTemperature(text, 'F', 'C');
+        } else if (text.includes('C')) { // If temperature is celsius
             unit = '\u00B0' + 'F';
-            unitVerify = getNumber(unitVerify);
-            temp = ctof(unitVerify);
+            text = getNumber(text);
+            value = convertTemperature(text, 'C', 'F');
         }
         
-        temps[i].textContent += ' (' + temp + unit + ')';
+        temperature.textContent += ' (' + value + unit + ')';
     }
 }
 
 // Scan page for temperatures
-var context = document.body;
-var instance = new Mark(context);
-var options = {
+const context = document.body;
+const instance = new Mark(context);
+const OPTIONS = {
     element: 'span',
     className: 'firefoxtempconvertedcomplete'
 };
-var tempRegex;
-browser.storage.local.get('allowAutoAdvanced', (item) => {
-    if (item.allowAutoAdvanced) {
-        tempRegex = /-?\d*\.?\d+\s?\°?\s?(C|F|c|f)(?!([\da-zA-Z]))/;
-    }
-    else {
-        tempRegex = /-?\d*\.?\d+\s?\°\s?(C|F|c|f)(?!([\da-zA-Z]))/;
-    }
-    instance.markRegExp(tempRegex, options);
-    convertTemps();
+let regex;
+browser.storage.local.get('allowAutoAdvanced', (data) => {
+    if (data.allowAutoAdvanced) regex = /-?\d*\.?\d+\s?\°?\s?(C|F|c|f)(?!([\da-zA-Z]))/;
+    else regex = /-?\d*\.?\d+\s?\°\s?(C|F|c|f)(?!([\da-zA-Z]))/;
+    instance.markRegExp(regex, OPTIONS);
+    convertTemperatures();
 });
