@@ -5,8 +5,13 @@
 	"version": "2.1",
 
 	"background": {
-		"scripts": ["background.js"]
+		"scripts": ["background.js", "scripts/utils.js"]
 	},
+
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["scripts/undo.js", "scripts/selection.js"]
+	}],
 	
 	"options_ui": {
 		"page": "options/options.html",
