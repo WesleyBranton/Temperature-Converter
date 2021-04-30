@@ -5,9 +5,11 @@
 let contentScript = null;
 
 updateContentScript();
-browser.runtime.onMessage.addListener(manageBrowserNotifications);
+browser.runtime.onMessage.addListener(messageManager);
 browser.runtime.onInstalled.addListener(handleInstalled);
 browser.storage.onChanged.addListener(handleStorageChange);
+browser.menus.onShown.addListener(updateContextMenu);
+browser.menus.onHidden.addListener(() => { hideUndoContextMenuItem(false) });
 
 // Creates context menu item
 browser.menus.create({
@@ -16,11 +18,22 @@ browser.menus.create({
     contexts: ['selection']
 });
 
+// Creates undo context menu item
+browser.menus.create({
+    id: 'undo-conversion',
+    title: 'Undo Conversion',
+    contexts: ['all'],
+    visible: false
+});
+
 // Runs the function to access the converting script with the context menu item is selected
 browser.menus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
         case 'convert-temp':
             convertTemperature(tab.id);
+            break;
+        case 'undo-conversion':
+            undoConversion(info, tab);
             break;
     }
 });
@@ -39,6 +52,17 @@ async function convertTemperature(tabId) {
     });
 }
 
+function messageManager(message) {
+    switch (message.type) {
+        case 'notification':
+            manageBrowserNotifications(message);
+            break;
+        case 'context':
+            manageContextMenu(message);
+            break;
+    }
+}
+
 /**
  * Handles browser notifications
  * @param {Object} message 
@@ -46,21 +70,21 @@ async function convertTemperature(tabId) {
 function manageBrowserNotifications(message) {
     browser.notifications.onClicked.removeListener(openRating);
 
-    if (message.type == 'error') { // Notifications for error messages
+    if (message.level == 'error') { // Notifications for error messages
         browser.notifications.create({
             type: 'basic',
             iconUrl: browser.runtime.getURL('icons/error-64.png'),
             title: 'Error converting temperature!',
-            message: message.error
+            message: message.text
         });
-    } else if (message.type == 'warning') { // Notifications for error messages
+    } else if (message.level == 'warning') { // Notifications for error messages
         browser.notifications.create({
             type: 'basic',
             iconUrl: browser.runtime.getURL('icons/warning-64.png'),
             title: 'Error converting temperature!',
-            message: message.error
+            message: message.text
         });
-    } else if (message.type == 'rate') { // Notifications for rating reminder
+    } else if (message.level == 'rate') { // Notifications for rating reminder
         browser.notifications.create({
             type: 'basic',
             iconUrl: browser.runtime.getURL('icons/rating-64.png'),
@@ -149,5 +173,60 @@ function handleStorageChange(changes, area) {
     // Triggers enable/disable of auto convert
     if ((typeof changes.allowAuto != 'undefined') || (typeof changes.allowAutoAdvanced != 'undefined')) {
         updateContentScript();
+    }
+}
+
+/**
+ * Undo the conversion
+ * @async
+ * @param {Object} info
+ * @param {Object} tab
+ */
+async function undoConversion(info, tab) {
+    await browser.tabs.executeScript(tab.id, {
+        file: '/scripts/undo.js'
+    });
+    await browser.tabs.executeScript(tab.id, {
+        code: `undo(${info.targetElementId});`
+    });
+}
+
+/**
+ * Update the undo context menu item
+ * @async
+ * @param {Object} info
+ * @param {Object} tab
+ */
+async function updateUndoContextMenuItem(info, tab) {
+    await browser.tabs.executeScript(tab.id, {
+        file: '/scripts/undo.js'
+    });
+    const enable = await browser.tabs.executeScript(tab.id, {
+        code: `canUndo(${info.targetElementId});`
+    });
+    await browser.menus.update('undo-conversion', {
+        visible: enable[0]
+    });
+    browser.menus.refresh();
+}
+
+/**
+ * Hide the undo context menu item
+ */
+async function hideUndoContextMenuItem() {
+    await browser.menus.update('undo-conversion', {
+        visible: false
+    });
+    browser.menus.refresh();
+}
+
+/**
+ * Handle context menu updates
+ * @param {Object} info
+ * @param {Object} tab
+ */
+function updateContextMenu(info, tab) {
+    if (!info.contexts.includes('selection')) {
+        updateUndoContextMenuItem(info, tab);
     }
 }

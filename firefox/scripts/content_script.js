@@ -22,6 +22,7 @@ function convertTemperatures() {
             value = convertTemperature(text, 'C', 'F');
         }
         
+        temperature.setAttribute('data-original', temperature.textContent);
         temperature.textContent += ' (' + value + unit + ')';
     }
 }

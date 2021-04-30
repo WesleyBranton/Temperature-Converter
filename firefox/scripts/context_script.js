@@ -21,8 +21,9 @@ function convertUserSelection() {
         for (let element of convertedElements) {
             if (selection.containsNode(element, true)) {
                 browser.runtime.sendMessage({
-                    type: 'warning',
-                    error: 'The temperature you have selected has already been converted using this extension.\n\nPlease select a different temperature.'
+                    type: 'notification',
+                    level: 'warning',
+                    text: 'The temperature you have selected has already been converted using this extension.\n\nPlease select a different temperature.'
                 });
                 return;
             }
@@ -39,8 +40,9 @@ function convertUserSelection() {
                 hasExtraCharacters = false;
             } else { // If there are extra characters after selection
                 browser.runtime.sendMessage({
-                    type: 'error',
-                    error: 'The temperature you have selected is invalid.\n\nPlease select a different temperature.'
+                    type: 'notification',
+                    level: 'error',
+                    text: 'The temperature you have selected is invalid.\n\nPlease select a different temperature.'
                 });
                 return;
             }
@@ -57,8 +59,9 @@ function convertUserSelection() {
                 value = convertTemperature(text, 'C', 'F');
             } else { // If temperature is not valid
                 browser.runtime.sendMessage({
-                    type: 'error',
-                    error: 'The temperature you have selected is invalid.\n\nPlease select a different temperature.'
+                    type: 'notificaiton',
+                    level: 'error',
+                    text: 'The temperature you have selected is invalid.\n\nPlease select a different temperature.'
                 });
                 return;
             }
@@ -66,6 +69,7 @@ function convertUserSelection() {
             const range = selection.getRangeAt(0);
             const output = document.createElement('span');
             output.className = 'firefoxtempconvertedcomplete';
+            output.setAttribute('data-original', originalSelection);
             output.appendChild(document.createTextNode(originalSelection + ' (' + value + unit + ') '));
             range.deleteContents();
             range.insertNode(output);
@@ -93,7 +97,8 @@ function updateStatistics(data) {
             });
             if (current % 50 == 0) { // If the user needs to be reminded to rate the add-on
                 browser.runtime.sendMessage({
-                    type: 'rate',
+                    type: 'notification',
+                    level: 'rate',
                     text: 'Are you liking this add-on? Please tell Firefox users how great this add-on is!\n\nClick this notification to open the Firefox add-on listing in a new window.'
                 });
             }
