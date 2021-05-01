@@ -36,7 +36,7 @@ function getNumber(text) {
                 }
                 break;
             case '.':
-                if (!hasDecimal && !negative && result.temperature.length > 0) { // If number contains a valid decimal
+                if (!hasDecimal && result.temperature.length > 0) { // If number contains a valid decimal
                     result.temperature += currentCharacter;
                     hasDecimal = true;
                     charPos++;
