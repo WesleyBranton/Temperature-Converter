@@ -9,19 +9,7 @@
 async function convertSelection() {
     const selection = window.getSelection();
 
-    if (selection) {
-        // Checks if user has already converted
-        const convertedElements = document.getElementsByClassName('firefoxtempconvertedcomplete');
-        for (let element of convertedElements) {
-            if (selection.containsNode(element, true)) {
-                browser.runtime.sendMessage({
-                    type: 'error',
-                    text: 'The temperature you have selected has already been converted using this extension.\n\nPlease select a different temperature.'
-                });
-                return;
-            }
-        }
-
+    if (selection && !isConverted(selection)) {
         // Get converted temperature
         const converted = await browser.runtime.sendMessage({
             type: 'convert',
@@ -40,4 +28,29 @@ async function convertSelection() {
         range.insertNode(output);
         window.getSelection().removeAllRanges();
     }
+}
+
+/**
+ * Returns the user's selected text (null if already converted)
+ * @returns Selected text
+ */
+function getSelection() {
+    const selection = window.getSelection();
+    return (selection && !isConverted(selection)) ? selection.toString() : null;
+}
+
+/**
+ * Checks if user has already converted
+ * @param {Object} selection
+ * @returns isConverted
+ */
+function isConverted(selection) {
+    const convertedElements = document.getElementsByClassName('firefoxtempconvertedcomplete');
+    for (let element of convertedElements) {
+        if (selection.containsNode(element, true)) {
+            return true;
+        }
+    }
+
+    return false;
 }
