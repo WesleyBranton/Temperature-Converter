@@ -253,5 +253,9 @@ function convert(selection) {
         value = convertTemperature(text, 'C', 'F');
     }
 
+    if (isNaN(value)) {
+        return null;
+    }
+
     return `${selection} (${value}\u00B0${unit})`;
 }
