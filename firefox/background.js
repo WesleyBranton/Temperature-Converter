@@ -56,9 +56,6 @@ function handleMessages(request, sender, sendResponse) {
     let response;
 
     switch (request.type) {
-        case 'error':
-            showError(request.text);
-            return;
         case 'convert':
             response = convert(request.parameter);
             break;
@@ -81,19 +78,6 @@ function handleMessages(request, sender, sendResponse) {
             url: 'messages/update.html'
         });
     }
-}
-
-/**
- * Show error notification
- * @param {String} text
- */
-function showError(text) {
-    browser.notifications.create({
-        type: 'basic',
-        iconUrl: browser.runtime.getURL('icons/error-64.png'),
-        title: 'Error!',
-        message: text
-    });
 }
 
 /**
@@ -234,7 +218,6 @@ function isValid(selection) {
         } else if (lastChar == 'F' || lastChar == 'C') { // If there are no extra characters after the selection
             hasExtraCharacters = false;
         } else { // If there are extra characters after selection
-            showError('The temperature you have selected is invalid.\n\nPlease select a different temperature.');
             return false;
         }
     } while (hasExtraCharacters);
@@ -264,9 +247,6 @@ function convert(selection) {
         unit = 'F';
         text = getNumber(text);
         value = convertTemperature(text, 'C', 'F');
-    } else { // If temperature is not valid
-        showError('The temperature you have selected is invalid.\n\nPlease select a different temperature.');
-        return null;
     }
 
     return `${selection} (${value}\u00B0${unit})`;
