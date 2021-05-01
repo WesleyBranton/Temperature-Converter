@@ -71,12 +71,15 @@ function handleMessages(request, sender, sendResponse) {
  function handleInstalled(details) {
     if (details.reason == 'install') {
         browser.tabs.create({
-            url: 'messages/new.html'
+            url: 'https://addons.wesleybranton.com/addon/temperature-converter/welcome/v1'
         });
     } else if (details.reason == 'update') {
-        browser.tabs.create({
-            url: 'messages/update.html'
-        });
+        const previousVersion = parseFloat(details.previousVersion);
+        if (previousVersion < 2.2) {
+            browser.tabs.create({
+                url: 'https://addons.wesleybranton.com/addon/temperature-converter/update/v2_2'
+            });
+        }
     }
 }
 
@@ -109,6 +112,7 @@ async function updateContentScript() {
     if (data.allowAuto) {
         contentScript = await browser.contentScripts.register({
             matches: ['<all_urls>'],
+            excludeMatches: ['*://addons.wesleybranton.com/addon/*'], // Prevents automatic conversion on demo website
             js: [
                 {file: 'lib/mark.min.js'},
                 {file: 'scripts/automatic.js'}
