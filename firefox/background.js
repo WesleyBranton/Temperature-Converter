@@ -253,7 +253,9 @@ function convert(selection) {
         value = convertTemperature(text, 'C', 'F');
     }
 
-    if (isNaN(value)) {
+    validNumberRegex = /^-?(\d*\.?\d+|\d{1,3}(,\d{3})*(\.\d+)?)$/;
+
+    if (!validNumberRegex.test(value)) {
         return null;
     }
 

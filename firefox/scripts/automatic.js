@@ -17,9 +17,9 @@ async function findTemperatures() {
     let regex;
 
     if (settings.allowAutoAdvanced) {
-        regex = /-?\d*\.?\d+\s?\°?\s?(C|F|c|f)(?!([\da-zA-Z]))/;
+        regex = /-?(\d*\.?\d+|\d{1,3}(,\d{3})*(\.\d+)?)\s?\°?\s?(C|F|c|f)(?!([\da-zA-Z]))/;
     } else {
-        regex = /-?\d*\.?\d+\s?\°\s?(C|F|c|f)(?!([\da-zA-Z]))/;
+        regex = /-?(\d*\.?\d+|\d{1,3}(,\d{3})*(\.\d+)?)\s?\°\s?(C|F|c|f)(?!([\da-zA-Z]))/;
     }
 
     await instance.markRegExp(regex, OPTIONS);
