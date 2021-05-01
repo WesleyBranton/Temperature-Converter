@@ -21,7 +21,6 @@
 	"permissions": [
 		"menus",
 		"activeTab",
-		"notifications",
 		"storage",
 		"<all_urls>"
 	],

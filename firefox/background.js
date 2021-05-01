@@ -15,14 +15,15 @@ browser.menus.onHidden.addListener(() => { toggleUndoContextMenuItem(false) });
 // Creates context menu item
 browser.menus.create({
     id: 'convert-temp',
-    title: 'Convert selected temperature',
-    contexts: ['selection']
+    title: 'Convert Selected Temperature',
+    contexts: ['selection'],
+    enabled: false
 });
 
 // Creates undo context menu item
 browser.menus.create({
     id: 'undo-conversion',
-    title: 'Undo Conversion',
+    title: 'Undo Temperature Conversion',
     contexts: ['all'],
     visible: false
 });
@@ -55,9 +56,6 @@ function handleMessages(request, sender, sendResponse) {
     let response;
 
     switch (request.type) {
-        case 'error':
-            showError(request.text);
-            return;
         case 'convert':
             response = convert(request.parameter);
             break;
@@ -80,19 +78,6 @@ function handleMessages(request, sender, sendResponse) {
             url: 'messages/update.html'
         });
     }
-}
-
-/**
- * Show error notification
- * @param {String} text
- */
-function showError(text) {
-    browser.notifications.create({
-        type: 'basic',
-        iconUrl: browser.runtime.getURL('icons/error-64.png'),
-        title: 'Error!',
-        message: text
-    });
 }
 
 /**
@@ -187,10 +172,59 @@ function toggleUndoContextMenuItem(enable) {
  * @param {Object} tab
  */
 function handleContextMenuShown(info, tab) {
-    if (!info.contexts.includes('selection')) {
+    if (info.contexts.includes('selection')) {
+        updateConvertContextMenuItem(info, tab);
+    } else {
         updateUndoContextMenuItem(info, tab);
     }
 }
+
+
+/**
+ * Enables/Disables convert context menu item based on user selection
+ * @async
+ * @param {*} info 
+ * @param {*} tab 
+ */
+async function updateConvertContextMenuItem(info, tab) {
+    const selection = await browser.tabs.executeScript(tab.id, {
+        code: 'getSelection();'
+    });
+    let valid = false;
+
+    if (selection[0] != null) {
+        valid = isValid(selection[0].toUpperCase());
+    }
+
+    await browser.menus.update('convert-temp', {
+        enabled: valid
+    });
+    browser.menus.refresh();
+}
+
+/**
+ * Checks if user selection is a valid temperature
+ * @param {String} selection
+ * @returns isValid
+ */
+function isValid(selection) {
+    let hasExtraCharacters = true;
+    let verificationStep = 1;
+
+    do { // Checks for extra characters after user selection
+        const lastChar = selection.charAt(selection.length - verificationStep)
+        if (lastChar == ' ') { // If characters after temperature selection are spaces
+            verificationStep++;
+        } else if (lastChar == 'F' || lastChar == 'C') { // If there are no extra characters after the selection
+            hasExtraCharacters = false;
+        } else { // If there are extra characters after selection
+            return false;
+        }
+    } while (hasExtraCharacters);
+
+    return (selection.includes('F') || selection.includes('C'));
+}
+
 
 /**
  * Convert temperature from string
@@ -200,20 +234,10 @@ function handleContextMenuShown(info, tab) {
 function convert(selection) {
     let text = selection.toUpperCase();
     let value, unit;
-    let hasExtraCharacters = true;
-    let verificationStep = 1;
 
-    do { // Checks for extra characters after user selection
-        const lastChar = text.charAt(text.length - verificationStep)
-        if (lastChar == ' ') { // If characters after temperature selection are spaces
-            verificationStep++;
-        } else if (lastChar == 'F' || lastChar == 'C') { // If there are no extra characters after the selection
-            hasExtraCharacters = false;
-        } else { // If there are extra characters after selection
-            showError('The temperature you have selected is invalid.\n\nPlease select a different temperature.');
-            return null;
-        }
-    } while (hasExtraCharacters);
+    if (!isValid(text)) {
+        return null;
+    }
 
     if (text.includes('F')) { // If temperature is fahrenheit
         unit = 'C';
@@ -223,9 +247,6 @@ function convert(selection) {
         unit = 'F';
         text = getNumber(text);
         value = convertTemperature(text, 'C', 'F');
-    } else { // If temperature is not valid
-        showError('The temperature you have selected is invalid.\n\nPlease select a different temperature.');
-        return null;
     }
 
     return `${selection} (${value}\u00B0${unit})`;
