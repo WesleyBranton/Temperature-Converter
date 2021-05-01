@@ -4,13 +4,21 @@
 
 /**
  * Undo previous conversion
+ * @param {HTMLElement} element
+ */
+function undoElement(element) {
+    const text = document.createTextNode(element.getAttribute('data-original'));
+    element.replaceWith(text);
+}
+
+/**
+ * Undo previous conversion (from background.js)
  * @param {number} target
  */
 function undo(target) {
     const element = selectElement(target);
     if (element != null) {
-        const text = document.createTextNode(element.getAttribute('data-original'));
-        element.replaceWith(text);
+        undoElement(element);
     }
 }
 

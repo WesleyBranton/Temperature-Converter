@@ -39,10 +39,13 @@ async function convertFound() {
             parameter: temperature.textContent
         });
 
-        if (converted == null) break;
-        
-        temperature.setAttribute('data-original', temperature.textContent);
-        temperature.textContent = converted;
+        if (converted == null) {
+            temperature.setAttribute('data-original', temperature.textContent);
+            undoElement(temperature);
+        } else {
+            temperature.setAttribute('data-original', temperature.textContent);
+            temperature.textContent = converted;
+        }
     }
 }
 
