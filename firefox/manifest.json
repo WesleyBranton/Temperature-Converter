@@ -5,7 +5,7 @@
 	"version": "2.1",
 
 	"background": {
-		"scripts": ["background.js", "scripts/utils.js"]
+		"scripts": ["scripts/utils.js", "background.js"]
 	},
 
 	"content_scripts": [{

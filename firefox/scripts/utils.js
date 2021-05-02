@@ -103,3 +103,59 @@ function convertTemperature(value, from, to) {
 
     return new Intl.NumberFormat().format(converted);
 }
+
+/**
+ * Checks if user selection is a valid temperature
+ * @param {String} selection
+ * @returns isValid
+ */
+ function isValid(selection) {
+    let hasExtraCharacters = true;
+    let verificationStep = 1;
+
+    do { // Checks for extra characters after user selection
+        const lastChar = selection.charAt(selection.length - verificationStep)
+        if (lastChar == ' ') { // If characters after temperature selection are spaces
+            verificationStep++;
+        } else if (lastChar == 'F' || lastChar == 'C') { // If there are no extra characters after the selection
+            hasExtraCharacters = false;
+        } else { // If there are extra characters after selection
+            return false;
+        }
+    } while (hasExtraCharacters);
+
+    return (selection.includes('F') || selection.includes('C'));
+}
+
+
+/**
+ * Convert temperature from string
+ * @param {String} selection
+ * @returns Converted text
+ */
+function convert(selection) {
+    let text = selection.toUpperCase();
+    let value, unit;
+
+    if (!isValid(text)) {
+        return null;
+    }
+
+    if (text.includes('F')) { // If temperature is fahrenheit
+        unit = 'C';
+        text = getNumber(text);
+        value = convertTemperature(text, 'F', 'C');
+    } else if (text.includes('C')) { // If temperature is celsius
+        unit = 'F';
+        text = getNumber(text);
+        value = convertTemperature(text, 'C', 'F');
+    }
+
+    validNumberRegex = /^-?(\d*\.?\d+|\d{1,3}(,\d{3})*(\.\d+)?)$/;
+
+    if (!validNumberRegex.test(value)) {
+        return null;
+    }
+
+    return `${selection} (${value}\u00B0${unit})`;
+}
