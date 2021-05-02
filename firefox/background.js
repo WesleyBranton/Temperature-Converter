@@ -112,7 +112,6 @@ async function updateContentScript() {
     if (data.allowAuto) {
         contentScript = await browser.contentScripts.register({
             matches: ['<all_urls>'],
-            excludeMatches: ['*://addons.wesleybranton.com/addon/*'], // Prevents automatic conversion on demo website
             js: [
                 {file: 'lib/mark.min.js'},
                 {file: 'scripts/automatic.js'}
