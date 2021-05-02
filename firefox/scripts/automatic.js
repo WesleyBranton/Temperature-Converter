@@ -7,6 +7,8 @@
  * @async
  */
 async function findTemperatures() {
+    if (document.body.classList.contains('firefoxtempconverter-ignoreauto')) return;
+
     const settings = await browser.storage.local.get('allowAutoAdvanced');
     const context = document.body;
     const instance = new Mark(context);
