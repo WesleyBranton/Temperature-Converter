@@ -6,9 +6,10 @@
  * Undo previous conversion
  * @param {HTMLElement} element
  */
-function undoElement(element) {
-    const text = document.createTextNode(element.getAttribute('data-original'));
-    element.replaceWith(text);
+ function undoElement(element) {
+    const text = (element.hasAttribute('data-original')) ? element.getAttribute('data-original') : element.textContent;
+    const textNode = document.createTextNode(text);
+    element.replaceWith(textNode);
 }
 
 /**
