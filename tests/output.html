@@ -1,0 +1,36 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Temperature Converter Unit Tests</title>
+        <link href="style.css" rel="stylesheet">
+        <script src="../firefox/scripts/utils.js"></script>
+    </head>
+    <body>
+        <span>Passed <span id="total-passed">0</span> of <span id="total-total">0</span> tests (<span id="total-failed">0</span> tests failed)</span>
+        <a id="filter" href="#">Show only failed tests</a>
+        <a id="refresh" href="#">Run tests again</a>
+        <br><br>
+        <template id="template-pass">
+            <div class="test pass">
+                <p class="title"></p>
+            </div>
+        </template>
+        <template id="template-fail">
+            <div class="test fail">
+                <p class="title"></p>
+                <p class="detail expected">Expected: "<span></span>"</p>
+                <p class="detail actual">Actual: "<span></span>"</p>
+            </div>
+        </template>
+        <template id="template-set">
+            <section></section>
+        </template>
+
+        <script src="utils.js"></script>
+        <script src="test.js"></script>
+    </body>
+</html>
