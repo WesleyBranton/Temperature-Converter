@@ -110,21 +110,8 @@ function convertTemperature(value, from, to) {
  * @returns isValid
  */
  function isValid(selection) {
-    let hasExtraCharacters = true;
-    let verificationStep = 1;
-
-    do { // Checks for extra characters after user selection
-        const lastChar = selection.charAt(selection.length - verificationStep)
-        if (lastChar == ' ') { // If characters after temperature selection are spaces
-            verificationStep++;
-        } else if (lastChar == 'F' || lastChar == 'C') { // If there are no extra characters after the selection
-            hasExtraCharacters = false;
-        } else { // If there are extra characters after selection
-            return false;
-        }
-    } while (hasExtraCharacters);
-
-    return (selection.includes('F') || selection.includes('C'));
+    const temperatureRegex = /(?<!.)-?(\d*\.?\d+|\d{1,3}(,\d{3})*(\.\d+)?)\s?\°?\s?(C|F|c|f)(?!.)/;
+    return temperatureRegex.test(selection.trim());
 }
 
 

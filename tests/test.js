@@ -47,7 +47,7 @@ function bulkTests(number, expected, celcius) {
             runTest(
                 testConvert,
                 MAIN_STRING + ' ',
-                (expected != null) ? `${MAIN_STRING} (${expected}) ` : null
+                (expected != null) ? `${MAIN_STRING}  (${expected})` : null
             );
 
             // Trailing character
