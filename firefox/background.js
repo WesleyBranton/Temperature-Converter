@@ -15,7 +15,7 @@ browser.menus.onHidden.addListener(() => { toggleUndoContextMenuItem(false) });
 // Creates context menu item
 browser.menus.create({
     id: 'convert-temp',
-    title: 'Convert Selected Temperature',
+    title: browser.i18n.getMessage('actionConvert'),
     contexts: ['selection'],
     enabled: false
 });
@@ -23,7 +23,7 @@ browser.menus.create({
 // Creates undo context menu item
 browser.menus.create({
     id: 'undo-conversion',
-    title: 'Undo Temperature Conversion',
+    title: browser.i18n.getMessage('actionUndo'),
     contexts: ['all'],
     visible: false
 });

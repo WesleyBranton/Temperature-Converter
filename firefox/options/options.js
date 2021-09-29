@@ -28,9 +28,12 @@ function updateUI() {
     const allowAutoEnabled = toBoolean(document.settings.allowAuto.value);
     for (i = 0; i < document.settings.allowAutoAdvanced.length; i++) {
         document.settings.allowAutoAdvanced[i].disabled = !allowAutoEnabled;
-        document.settings.allowAutoAdvanced[i].title = (!allowAutoEnabled) ? "Automatically convert temperatures must be allowed" : "";
+        document.settings.allowAutoAdvanced[i].title = (!allowAutoEnabled) ? browser.i18n.getMessage('autoConvertAdvancedDisabledTooltip') : "";
     }
 }
+
+document.title = browser.i18n.getMessage('optionsTitle', browser.i18n.getMessage('extensionName'));
+i18nParse();
 
 browser.storage.local.get(['allowAuto', 'allowAutoAdvanced'], restoreOptions);
 document.querySelector('form').addEventListener('change', saveOptions);

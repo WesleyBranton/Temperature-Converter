@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Temperature Converter Preferences</title>
+        <title>Temperature Converter Options</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="../lib/new_browser_style.css">
         <link rel="stylesheet" href="style.css">
@@ -13,27 +13,34 @@
     <body class="browser-style">
         <form name="settings">
             <section class="panel-section has-help">
-                <label>Automatically convert temperatures</label>
+                <label data-i18n="autoConvertLabel"></label>
                 <div>
-                    <label><input type="radio" name="allowAuto" value="true"> Allow</label>
-                    <label><input type="radio" name="allowAuto" value="false"> Deny</label>
+                    <input id="allowAutoY" type="radio" name="allowAuto" value="true">
+                    <label for="allowAutoY" data-i18n="valueAllow"></label><br>
+
+                    <input id="allowAutoN" type="radio" name="allowAuto" value="false">
+                    <label for="allowAutoN" data-i18n="valueDeny"></label>
                 </div>
             </section>
             <section class="panel-section help-row">
-                Scan website for temperatures and insert the converted temperature automatically
+                <span data-i18n="autoConvertDescription"></span>
             </section>
             <div class="panel-section-separator"></div>
             <section class="panel-section has-help sub">
-                <label>Automatically convert temperatures - Advanced</label>
+                <label><span data-i18n="autoConvertLabel"></span> - <span data-i18n="advanced"></span></label>
                 <div>
-                    <label><input type="radio" name="allowAutoAdvanced" value="true"> Allow</label>
-                    <label><input type="radio" name="allowAutoAdvanced" value="false"> Deny</label>
+                    <input id="allowAutoAdvancedY" type="radio" name="allowAutoAdvanced" value="true">
+                    <label for="allowAutoAdvancedY" data-i18n="valueAllow"></label><br>
+
+                    <input id="allowAutoAdvancedN" type="radio" name="allowAutoAdvanced" value="false">
+                    <label for="allowAutoAdvancedN" data-i18n="valueDeny"></label>
                 </div>
             </section>
             <section class="panel-section help-row sub">
-                Expand the automatic converting of temperatures to include temperatures formatted without degree symbol (e.g. "180C" or "180 c")
+                <span data-i18n="autoConvertAdvancedDescription"></span>
             </section>
         </form>
+        <script src="../lib/i18n_helper.js"></script>
         <script src="options.js"></script>
     </body>
 </html>
