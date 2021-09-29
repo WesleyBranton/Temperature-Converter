@@ -1,8 +1,9 @@
 {
 	"manifest_version": 2,
-	"name": "Temperature Converter",
-	"description" : "Easily convert temperatures on websites right from the Firefox context menu!",
+	"name": "__MSG_extensionName__",
+	"description" : "__MSG_extensionDescription__",
 	"version": "2.3",
+	"default_locale": "en",
 
 	"background": {
 		"scripts": ["scripts/utils.js", "background.js"]
