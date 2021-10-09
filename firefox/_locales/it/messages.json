@@ -1,0 +1,47 @@
+{
+    "extensionName": {
+        "message": "Convertitore di temperatura"
+    },
+    "extensionDescription": {
+        "message": "Converti facilmente i valori di temperatura nei siti web direttamente dal menu di Firefox!"
+    },
+    "optionsTitle": {
+        "message": "$EXTENSIONNAME$ - Opzioni",
+        "placeholders": {
+            "extensionname": {
+                "content": "$1"
+            }
+        }
+    },
+
+    "actionConvert": {
+        "message": "Converti la temperatura selezionata"
+    },
+    "actionUndo": {
+        "message": "Annulla conversione"
+    },
+
+    "valueAllow": {
+        "message": "Permetti"
+    },
+    "valueDeny": {
+        "message": "Rifiuta"
+    },
+    "advanced": {
+        "message": "Avanzate"
+    },
+
+    "autoConvertLabel": {
+        "message": "Converti la temperatura automaticamente"
+    },
+    "autoConvertDescription": {
+        "message": "Analizza e inserisci automaticamente i valori convertiti nelle pagine web"
+    },
+    "autoConvertAdvancedDescription": {
+        "message": "Espandi la conversione automatica per includere le temperature senza il simbolo di grado (e.g. \"180C\" or \"180 c\")"
+    },
+    "autoConvertAdvancedDisabledTooltip": {
+        "message": "La conversione automatica deve essere abilitata"
+    }
+    
+}
