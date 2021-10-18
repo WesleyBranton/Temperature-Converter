@@ -1,0 +1,47 @@
+{
+    "extensionName": {
+        "message": "Temperaturkonvertering"
+    },
+    "extensionDescription": {
+        "message": "Konverter enkelt temperaturer på nettsteder rett fra Firefox-hurtigmenyen!"
+    },
+    "optionsTitle": {
+        "message": "$EXTENSIONNAME$ Alternativer",
+        "placeholders": {
+            "extensionname": {
+                "content": "$1"
+            }
+        }
+    },
+
+    "actionConvert": {
+        "message": "Konverter valgt temperatur"
+    },
+    "actionUndo": {
+        "message": "Angre temperaturkonvertering"
+    },
+
+    "valueAllow": {
+        "message": "Tillat"
+    },
+    "valueDeny": {
+        "message": "Nekt"
+    },
+    "advanced": {
+        "message": "Avansert"
+    },
+
+    "autoConvertLabel": {
+        "message": "Konverter temperaturer automatisk"
+    },
+    "autoConvertDescription": {
+        "message": "Skann nettstedet for temperaturer og sett inn den konverterte temperaturen automatisk"
+    },
+    "autoConvertAdvancedDescription": {
+        "message": "Utvid den automatiske konverteringen av temperaturer til å omfatte temperaturer formatert uten gradsymbol (f.eks. \" 180C \"eller \" 180 c \")"
+    },
+    "autoConvertAdvancedDisabledTooltip": {
+        "message": "Konverter temperaturer automatisk må være tillatt"
+    }
+    
+}
