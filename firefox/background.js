@@ -55,15 +55,20 @@ function handleContextMenuClicked(info, tab) {
  * @param {Function} sendResponse
  */
 function handleMessages(request, sender, sendResponse) {
-    let response;
+    let response = null;
 
     switch (request.type) {
         case 'convert':
             response = convert(request.parameter);
             break;
+        case 'feedback':
+            openFeedback();
+            break;
     }
 
-    sendResponse(response);
+    if (response != null) {
+        sendResponse(response);
+    }
 }
 
 /**
@@ -235,4 +240,18 @@ function getSystemDetails(callback) {
  */
 function getBrowserName() {
     return 'FIREFOX';
+}
+
+/**
+ * Open feedback window
+ */
+function openFeedback() {
+    getSystemDetails((details) => {
+        browser.windows.create({
+            height: 700,
+            width: 450,
+            type: browser.windows.CreateType.PANEL,
+            url: `${webBase}/feedback/?browser=${details.browser}&os=${details.os}&version=${details.version}`
+        });
+    });
 }

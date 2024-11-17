@@ -31,6 +31,16 @@
         "message": "Advanced"
     },
 
+    "linkHelp": {
+        "message": "Help"
+    },
+    "linkDonate": {
+        "message": "Donate"
+    },
+    "linkFeedback": {
+        "message": "Feedback"
+    },
+
     "autoConvertLabel": {
         "message": "Automatically convert temperatures"
     },
