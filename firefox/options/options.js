@@ -32,8 +32,18 @@ function updateUI() {
     }
 }
 
+/**
+ * Open feedback window
+ */
+function openFeedback() {
+    browser.runtime.sendMessage({
+        type: 'feedback'
+    });
+}
+
 document.title = browser.i18n.getMessage('optionsTitle', browser.i18n.getMessage('extensionName'));
 i18nParse();
 
 browser.storage.local.get(['allowAuto', 'allowAutoAdvanced'], restoreOptions);
 document.querySelector('form').addEventListener('change', saveOptions);
+document.getElementById('feedbacklink').addEventListener('click', openFeedback);
