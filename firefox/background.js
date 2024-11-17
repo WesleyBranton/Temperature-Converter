@@ -120,7 +120,7 @@ async function updateContentScript() {
         contentScript = await browser.contentScripts.register({
             matches: ['<all_urls>'],
             js: [
-                {file: 'lib/mark.min.js'},
+                {file: 'lib/mark.js'},
                 {file: 'scripts/automatic.js'}
             ],
             runAt: 'document_end',
