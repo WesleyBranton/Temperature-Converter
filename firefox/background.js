@@ -3,8 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 let contentScript = null;
+const webBase = 'https://addons.wesleybranton.com/addon/temperature-converter';
 
 updateContentScript();
+setUninstallPage();
 browser.runtime.onMessage.addListener(handleMessages);
 browser.runtime.onInstalled.addListener(handleInstalled);
 browser.storage.onChanged.addListener(handleStorageChange);
@@ -71,13 +73,13 @@ function handleMessages(request, sender, sendResponse) {
  function handleInstalled(details) {
     if (details.reason == 'install') {
         browser.tabs.create({
-            url: 'https://addons.wesleybranton.com/addon/temperature-converter/welcome/v1'
+            url: `${webBase}/welcome/v1`
         });
     } else if (details.reason == 'update') {
         const previousVersion = parseFloat(details.previousVersion);
         if (previousVersion < 2.2) {
             browser.tabs.create({
-                url: 'https://addons.wesleybranton.com/addon/temperature-converter/update/v2_2'
+                url: `${webBase}/update/v2_2`
             });
         }
     }
@@ -202,4 +204,35 @@ async function updateConvertContextMenuItem(info, tab) {
         enabled: valid
     });
     browser.menus.refresh();
+}
+
+/**
+ * Set up uninstall page
+ */
+function setUninstallPage() {
+    getSystemDetails((details) => {
+        browser.runtime.setUninstallURL(`${webBase}/uninstall/?browser=${details.browser}&os=${details.os}&version=${details.version}`);
+    });
+}
+
+/**
+ * Send system details to callback
+ * @param {Function} callback
+ */
+function getSystemDetails(callback) {
+    browser.runtime.getPlatformInfo((platform) => {
+        callback({
+            browser: getBrowserName().toLowerCase(),
+            version: browser.runtime.getManifest().version,
+            os: platform.os
+        });
+    });
+}
+
+/**
+ * Get browser name
+ * @returns Browser name
+ */
+function getBrowserName() {
+    return 'FIREFOX';
 }
